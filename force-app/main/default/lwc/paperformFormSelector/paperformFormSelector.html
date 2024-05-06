@@ -1,18 +1,31 @@
 <template>
-    <lightning-input
-        label="Paperform API Key"
-        value={apiKey}
-        onchange={handleApiKeyChange}
-    ></lightning-input>
-    <lightning-combobox
-        label="Select Form"
-        value={formId}
-        options={formOptions}
-        onchange={handleFormSelection}
-    ></lightning-combobox>
-    <lightning-button
-        label="Save Settings"
-        onclick={handleSaveClick}
-    ></lightning-button>
-    <p>{message}</p>
+    <lightning-card title="Paperform Settings" icon-name="utility:settings">
+        <div class="slds-var-p-around_medium">
+            <p class="slds-var-m-bottom_medium">
+                <lightning-formatted-rich-text
+                    value="To begin sending leads from Paperform to Salesforce, set your Paperform API key and select the form that should indicate leads"
+                ></lightning-formatted-rich-text>
+            </p>
+            <lightning-input
+                label="Paperform API Key"
+                value={apiKey}
+                onchange={handleApiKeyChange}
+                class="slds-var-m-bottom_medium"
+            ></lightning-input>
+            <lightning-combobox
+                label="Select Form"
+                value={formId}
+                options={formOptions}
+                onchange={handleFormSelection}
+                class="slds-var-m-bottom_medium"
+            ></lightning-combobox>
+            <lightning-button
+                label="Save Settings"
+                onclick={handleSaveClick}
+                class="slds-var-m-top_medium"
+                variant="brand"
+            ></lightning-button>
+            <p class="slds-var-m-top_small">{message}</p>
+        </div>
+    </lightning-card>
 </template>

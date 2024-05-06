@@ -56,7 +56,6 @@
     <label>Paperform</label>
     <navType>Standard</navType>
     <setupExperience>all</setupExperience>
-    <tabs>standard-home</tabs>
     <tabs>Paperform_settings</tabs>
     <tabs>standard-Lead</tabs>
     <uiType>Lightning</uiType>
