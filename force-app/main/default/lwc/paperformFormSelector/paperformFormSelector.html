@@ -1,0 +1,18 @@
+<template>
+    <lightning-input
+        label="Paperform API Key"
+        value={apiKey}
+        onchange={handleApiKeyChange}
+    ></lightning-input>
+    <lightning-combobox
+        label="Select Form"
+        value={formId}
+        options={formOptions}
+        onchange={handleFormSelection}
+    ></lightning-combobox>
+    <lightning-button
+        label="Save Settings"
+        onclick={handleSaveClick}
+    ></lightning-button>
+    <p>{message}</p>
+</template>
