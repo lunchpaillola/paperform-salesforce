@@ -1,7 +1,6 @@
 public with sharing class PaperformAPIService {
     // Constructor remains empty for boilerplate purposes
     public PaperformAPIService() {
-        // The constructor should not contain other class definitions or static methods.
     }
 
     // Static method to fetch available forms from the Paperform API
@@ -17,14 +16,18 @@ public with sharing class PaperformAPIService {
         if (response.getStatusCode() == 200) {
             // Parse the JSON response to retrieve form names
             List<String> formNames = new List<String>();
-            Map<String, Object> results = (Map<String, Object>) JSON.deserializeUntyped(
+            Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(
                 response.getBody()
             );
-            List<Object> formsList = (List<Object>) results.get('forms');
-
-            for (Object form : formsList) {
-                Map<String, Object> formDetails = (Map<String, Object>) form;
-                formNames.add((String) formDetails.get('title'));
+            Map<String, Object> results = (Map<String, Object>) responseMap.get(
+                'results'
+            );
+            if (results != null) {
+                List<Object> formsList = (List<Object>) results.get('forms');
+                for (Object form : formsList) {
+                    Map<String, Object> formDetails = (Map<String, Object>) form;
+                    formNames.add((String) formDetails.get('title')); // Extracting the title of each form
+                }
             }
             return formNames;
         } else {
