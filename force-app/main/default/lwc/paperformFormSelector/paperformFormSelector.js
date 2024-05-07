@@ -1,6 +1,6 @@
 import { LightningElement, track } from 'lwc';
-//import saveFormSettings from '@salesforce/apex/PaperformSettingsController.saveFormSettings';
-//import getFormOptions from '@salesforce/apex/PaperformSettingsController.getFormOptions';
+import saveFormSettings from '@salesforce/apex/PaperformSettingsController.saveFormSettings';
+import getFormOptions from '@salesforce/apex/PaperformSettingsController.getFormOptions';
 
 export default class PaperformFormSelector extends LightningElement {
     @track apiKey;
@@ -11,7 +11,7 @@ export default class PaperformFormSelector extends LightningElement {
     handleApiKeyChange(event) {
         this.apiKey = event.target.value;
         // Fetch available forms based on the new API key
-        /*getFormOptions({ apiKey: this.apiKey }
+        getFormOptions({ apiKey: this.apiKey })
             .then((result) => {
                 this.formOptions = result.map((form) => ({
                     label: form,
@@ -20,7 +20,7 @@ export default class PaperformFormSelector extends LightningElement {
             })
             .catch((error) => {
                 this.message = 'Error fetching forms: ' + error.body.message;
-            }); */
+            });
     }
 
     handleFormSelection(event) {
@@ -28,12 +28,12 @@ export default class PaperformFormSelector extends LightningElement {
     }
 
     handleSaveClick() {
-        /*saveFormSettings({ apiKey: this.apiKey, formId: this.formId })
+        saveFormSettings({ apiKey: this.apiKey, formId: this.formId })
             .then((result) => {
                 this.message = result;
             })
             .catch((error) => {
                 this.message = 'Error saving settings: ' + error.body.message;
-            }); */
+            });
     }
 }
