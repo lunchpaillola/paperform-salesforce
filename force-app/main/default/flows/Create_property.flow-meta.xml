@@ -44,7 +44,9 @@
                 <elementReference>property_address.street</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>GeocodingService</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>51.0</apiVersion>
     <decisions>

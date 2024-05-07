@@ -4,18 +4,18 @@
     <promptVersions>
         <body
         >The &quot;Property Finder&quot; page is also composed in App Builder. This time we use a map to show filtered properties locations. Click on any of the map markers to select a property and see its details.</body>
+        <customApplication>Paperform</customApplication>
         <delayDays>1</delayDays>
         <dismissButtonLabel>Close</dismissButtonLabel>
         <displayPosition>BottomLeft</displayPosition>
         <displayType>FloatingPanel</displayType>
         <isPublished>true</isPublished>
         <masterLabel>Property Finder Step 1</masterLabel>
-        <publishedDate>2020-06-29</publishedDate>
+        <publishedDate>2024-05-06</publishedDate>
         <shouldDisplayActionButton>false</shouldDisplayActionButton>
         <shouldIgnoreGlobalDelay>true</shouldIgnoreGlobalDelay>
         <startDate>2020-06-29</startDate>
         <stepNumber>1</stepNumber>
-        <customApplication>Paperform</customApplication>
         <targetPageKey1>Property_Finder</targetPageKey1>
         <targetPageType>standard__navItemPage</targetPageType>
         <timesToDisplay>1</timesToDisplay>
@@ -27,6 +27,7 @@
     <promptVersions>
         <body
         >The map component in the center of the screen is built using a third party JavaScript library, provided as &lt;a href=&quot;https://developer.salesforce.com/docs/atlas.en-us.pages.meta/pages/pages_resources.htm&quot; target=&quot;_blank&quot;&gt;static resource&lt;/a&gt;.</body>
+        <customApplication>Paperform</customApplication>
         <dismissButtonLabel>Close</dismissButtonLabel>
         <displayPosition>BottomCenter</displayPosition>
         <displayType>FloatingPanel</displayType>
@@ -35,7 +36,6 @@
         <shouldDisplayActionButton>false</shouldDisplayActionButton>
         <shouldIgnoreGlobalDelay>true</shouldIgnoreGlobalDelay>
         <stepNumber>2</stepNumber>
-        <customApplication>Paperform</customApplication>
         <targetPageKey1>Property_Finder</targetPageKey1>
         <targetPageType>standard__navItemPage</targetPageType>
         <title>Third party JavaScript libraries</title>
@@ -45,7 +45,8 @@
     </promptVersions>
     <promptVersions>
         <body
-        >Now, select a property. Click on the double arrow icon located next to the property's name in the property summary card. You'll navigate to the property record page and find the next tour.</body>
+        >Now, select a property. Click on the double arrow icon located next to the property&apos;s name in the property summary card. You&apos;ll navigate to the property record page and find the next tour.</body>
+        <customApplication>Paperform</customApplication>
         <dismissButtonLabel>Close</dismissButtonLabel>
         <displayPosition>BottomRight</displayPosition>
         <displayType>FloatingPanel</displayType>
@@ -54,7 +55,6 @@
         <shouldDisplayActionButton>false</shouldDisplayActionButton>
         <shouldIgnoreGlobalDelay>true</shouldIgnoreGlobalDelay>
         <stepNumber>3</stepNumber>
-        <customApplication>Paperform</customApplication>
         <targetPageKey1>Property_Finder</targetPageKey1>
         <targetPageType>standard__navItemPage</targetPageType>
         <title>Next Tour</title>
