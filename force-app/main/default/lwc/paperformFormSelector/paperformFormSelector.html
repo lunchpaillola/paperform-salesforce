@@ -12,18 +12,21 @@
                 onchange={handleApiKeyChange}
                 class="slds-var-m-bottom_medium"
             ></lightning-input>
-            <lightning-combobox
-                label="Select Form"
-                value={formId}
-                options={formOptions}
-                onchange={handleFormSelection}
-                class="slds-var-m-bottom_medium"
-            ></lightning-combobox>
+            <template if:true={isApiKeyEntered}>
+                <lightning-combobox
+                    label="Select Form"
+                    value={formId}
+                    options={formOptions}
+                    onchange={handleFormSelection}
+                    class="slds-var-m-bottom_medium"
+                ></lightning-combobox>
+            </template>
             <lightning-button
                 label="Save Settings"
                 onclick={handleSaveClick}
                 class="slds-var-m-top_medium"
                 variant="brand"
+                disabled={isFormSelected}
             ></lightning-button>
             <p class="slds-var-m-top_small">{message}</p>
         </div>

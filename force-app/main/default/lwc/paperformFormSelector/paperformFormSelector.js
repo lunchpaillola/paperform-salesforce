@@ -3,24 +3,36 @@ import saveFormSettings from '@salesforce/apex/PaperformSettingsController.saveF
 import getFormOptions from '@salesforce/apex/PaperformSettingsController.getFormOptions';
 
 export default class PaperformFormSelector extends LightningElement {
-    @track apiKey;
+    @track apiKey = '';
     @track formId;
     @track message;
     @track formOptions = [];
 
+    get isApiKeyEntered() {
+        return this.apiKey && this.apiKey.length > 0;
+    }
+
+    get isFormSelected() {
+        return !(this.formId && this.formId.length > 0);
+    }
+
     handleApiKeyChange(event) {
         this.apiKey = event.target.value;
-        // Fetch available forms based on the new API key
-        getFormOptions({ apiKey: this.apiKey })
-            .then((result) => {
-                this.formOptions = result.map((form) => ({
-                    label: form,
-                    value: form
-                }));
-            })
-            .catch((error) => {
-                this.message = 'Error fetching forms: ' + error.body.message;
-            });
+        if (this.apiKey) {
+            getFormOptions({ apiKey: this.apiKey })
+                .then((result) => {
+                    this.formOptions = result.map((form) => ({
+                        label: form,
+                        value: form
+                    }));
+                })
+                .catch((error) => {
+                    this.message =
+                        'Error fetching forms: ' + error.body.message;
+                });
+        } else {
+            this.formOptions = [];
+        }
     }
 
     handleFormSelection(event) {
