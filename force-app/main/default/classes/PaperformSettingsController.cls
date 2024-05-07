@@ -2,7 +2,6 @@ public with sharing class PaperformSettingsController {
     public PaperformSettingsController() {
     }
 
-    /*
     @AuraEnabled
     public static String saveFormSettings(String apiKey, String formId) {
         // Use PaperformSettingsManager to save the settings
@@ -15,5 +14,4 @@ public with sharing class PaperformSettingsController {
         // Delegate to PaperformAPIService to fetch the list of forms
         return PaperformAPIService.getAvailableForms(apiKey);
     }
-    */
 }
