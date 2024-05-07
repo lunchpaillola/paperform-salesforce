@@ -7,7 +7,7 @@ public with sharing class PaperformAPIService {
     // Static method to fetch available forms from the Paperform API
     public static List<String> getAvailableForms(String apiKey) {
         HttpRequest request = new HttpRequest();
-        request.setEndpoint('https://api.paperform.co/forms');
+        request.setEndpoint('https://api.paperform.co/v1/forms');
         request.setMethod('GET');
         request.setHeader('Authorization', 'Bearer ' + apiKey);
 
@@ -24,7 +24,7 @@ public with sharing class PaperformAPIService {
 
             for (Object form : formsList) {
                 Map<String, Object> formDetails = (Map<String, Object>) form;
-                formNames.add((String) formDetails.get('name')); // Assuming "name" is the field containing form names
+                formNames.add((String) formDetails.get('title'));
             }
             return formNames;
         } else {
