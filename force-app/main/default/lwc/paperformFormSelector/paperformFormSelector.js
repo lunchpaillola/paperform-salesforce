@@ -21,10 +21,13 @@ export default class PaperformFormSelector extends LightningElement {
         if (this.apiKey) {
             getFormOptions({ apiKey: this.apiKey })
                 .then((result) => {
-                    this.formOptions = result.map((form) => ({
-                        label: form,
-                        value: form
-                    }));
+                    this.formOptions = result.map((form) => {
+                        console.log('Mapping form:', form);
+                        return {
+                            label: form.title,
+                            value: form.id
+                        };
+                    });
                 })
                 .catch((error) => {
                     this.message =
@@ -40,12 +43,16 @@ export default class PaperformFormSelector extends LightningElement {
     }
 
     handleSaveClick() {
+        console.log('formId', this.formId);
         saveFormSettings({ apiKey: this.apiKey, formId: this.formId })
             .then((result) => {
                 this.message = result;
             })
             .catch((error) => {
-                this.message = 'Error saving settings: ' + error.body.message;
+                this.message =
+                    'Error saving settings: ' +
+                    (error.body ? error.body.message : 'Unknown error');
+                console.error('Error details:', error);
             });
     }
 }

@@ -1,10 +1,5 @@
 public with sharing class PaperformAPIService {
-    // Constructor remains empty for boilerplate purposes
-    public PaperformAPIService() {
-    }
-
-    // Static method to fetch available forms from the Paperform API
-    public static List<String> getAvailableForms(String apiKey) {
+    public static List<Map<String, String>> getAvailableForms(String apiKey) {
         HttpRequest request = new HttpRequest();
         request.setEndpoint('https://api.paperform.co/v1/forms');
         request.setMethod('GET');
@@ -14,24 +9,28 @@ public with sharing class PaperformAPIService {
         HttpResponse response = http.send(request);
 
         if (response.getStatusCode() == 200) {
-            // Parse the JSON response to retrieve form names
-            List<String> formNames = new List<String>();
+            // Parse the JSON response to retrieve form details
             Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(
                 response.getBody()
             );
+            List<Map<String, String>> forms = new List<Map<String, String>>();
+
+            // Correct handling of nested JSON structure
             Map<String, Object> results = (Map<String, Object>) responseMap.get(
                 'results'
             );
-            if (results != null) {
+            if (results != null && results.containsKey('forms')) {
                 List<Object> formsList = (List<Object>) results.get('forms');
                 for (Object form : formsList) {
                     Map<String, Object> formDetails = (Map<String, Object>) form;
-                    formNames.add((String) formDetails.get('title')); // Extracting the title of each form
+                    Map<String, String> formInfo = new Map<String, String>();
+                    formInfo.put('title', (String) formDetails.get('title'));
+                    formInfo.put('id', (String) formDetails.get('id'));
+                    forms.add(formInfo);
                 }
             }
-            return formNames;
+            return forms;
         } else {
-            // Handle HTTP request errors
             throw new AuraHandledException(
                 'Failed to retrieve forms: ' +
                     response.getStatusCode() +
