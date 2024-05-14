@@ -55,4 +55,17 @@ export default class PaperformFormSelector extends LightningElement {
                 console.error('Error details:', error);
             });
     }
+
+    /* Inside your LWC JavaScript
+handleImportClick() {
+    importSubmissions({ apiKey: this.apiKey, formId: this.formId })
+        .then(submissions => {
+            console.log('Submissions imported:', submissions);
+            // Further processing to create leads can be initiated here
+        })
+        .catch(error => {
+            this.message = 'Error importing submissions: ' + (error.body ? error.body.message : 'Unknown error');
+            console.error('Error details:', error);
+        });
+} */
 }

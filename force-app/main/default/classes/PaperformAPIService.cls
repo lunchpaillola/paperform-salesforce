@@ -40,6 +40,55 @@ public with sharing class PaperformAPIService {
         }
     }
 
+    //Initial import of submissions then following that we can do like watching with a scheduler
+    /*
+
+    @AuraEnabled(cacheable=true)
+    public static List<PaperformSubmission> fetchSubmissions(String apiKey, String formId) {
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://api.paperform.co/v1/forms/' + formId + '/submissions');
+        request.setMethod('GET');
+        request.setHeader('Authorization', 'Bearer ' + apiKey);
+
+        Http http = new Http();
+        HttpResponse response = http.send(request);
+
+        if (response.getStatusCode() == 200) {
+            return parseSubmissions(response.getBody());
+        } else {
+            throw new AuraHandledException(
+                'Failed to fetch submissions: ' + response.getStatusCode() + ' ' + response.getStatus()
+            );
+        }
+    }
+
+    private static List<PaperformSubmission> parseSubmissions(String jsonResponse) {
+        List<PaperformSubmission> submissions = new List<PaperformSubmission>();
+        Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(jsonResponse);
+
+        if (responseMap.containsKey('results')) {
+            List<Object> submissionsList = (List<Object>) responseMap.get('results');
+            for (Object obj : submissionsList) {
+                Map<String, Object> submissionData = (Map<String, Object>) obj;
+                PaperformSubmission submission = new PaperformSubmission();
+
+                submission.id = (String) submissionData.get('id');
+                submission.formId = (String) submissionData.get('form_id');
+
+                // Assuming data fields are a simple key-value pair of strings
+                Map<String, Object> data = (Map<String, Object>) submissionData.get('data');
+                submission.data = new Map<String, String>();
+                for (String key : data.keySet()) {
+                    submission.data.put(key, (String) data.get(key));
+                }
+
+                submissions.add(submission);
+            }
+        }
+        return submissions;
+    }
+} */
+
     /*private static List<PaperformSubmission> parseSubmissions(
         String jsonResponse
     ) {
