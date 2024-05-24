@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description
-    >Set your Paper form api key and select the form that should indicate lads</description>
     <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentName>paperformFormSelector</componentName>
-                <identifier>c_paperformFormSelector</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>region1</name>
         <type>Region</type>
     </flexiPageRegions>
@@ -20,9 +12,9 @@
         <name>region3</name>
         <type>Region</type>
     </flexiPageRegions>
-    <masterLabel>SettingsPaperform</masterLabel>
+    <masterLabel>paperformtest</masterLabel>
     <template>
-        <name>flexipage:appHomeTemplateHeaderTwoColumnsEqualWidth</name>
+        <name>flexipage:appHomeTemplateHeaderTwoColumnsLeftSidebar</name>
     </template>
     <type>AppPage</type>
 </FlexiPage>

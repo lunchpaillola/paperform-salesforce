@@ -57,6 +57,7 @@
     <navType>Standard</navType>
     <setupExperience>all</setupExperience>
     <tabs>Paperform_settings</tabs>
+    <tabs>paperformtest</tabs>
     <tabs>standard-Lead</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

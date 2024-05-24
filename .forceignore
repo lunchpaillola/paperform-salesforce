@@ -8,7 +8,6 @@ package.xml
 **/appMenus/**
 **/appSwitcher/**
 **/objectTranslations/**
-**/profiles/**
 **/settings/**
 
 # LWC configuration files
