@@ -59,6 +59,7 @@ export default class PaperformFormSelector extends LightningElement {
 
     //importsubmissionLeads
     importSubmissionsAsLeads() {
+        console.log('trying the importSubmissionAsLeads');
         importSubmissions({ apiKey: this.apiKey, formId: this.formId })
             .then((submissions) => {
                 console.log('Submissions imported:', submissions);

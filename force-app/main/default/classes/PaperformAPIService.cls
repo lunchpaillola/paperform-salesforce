@@ -71,34 +71,26 @@ public with sharing class PaperformAPIService {
         String jsonResponse
     ) {
         List<Map<String, String>> submissions = new List<Map<String, String>>();
-        Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(
+        List<Object> responseList = (List<Object>) JSON.deserializeUntyped(
             jsonResponse
         );
 
-        if (responseMap.containsKey('results')) {
-            List<Object> submissionsList = (List<Object>) responseMap.get(
-                'results'
+        for (Object obj : responseList) {
+            Map<String, Object> submissionData = (Map<String, Object>) obj;
+            Map<String, String> submission = new Map<String, String>();
+
+            submission.put('id', (String) submissionData.get('id'));
+            submission.put('formId', (String) submissionData.get('form_id'));
+
+            // Assuming data fields are a simple key-value pair of strings
+            Map<String, Object> data = (Map<String, Object>) submissionData.get(
+                'data'
             );
-            for (Object obj : submissionsList) {
-                Map<String, Object> submissionData = (Map<String, Object>) obj;
-                Map<String, String> submission = new Map<String, String>();
-
-                submission.put('id', (String) submissionData.get('id'));
-                submission.put(
-                    'formId',
-                    (String) submissionData.get('form_id')
-                );
-
-                // Assuming data fields are a simple key-value pair of strings
-                Map<String, Object> data = (Map<String, Object>) submissionData.get(
-                    'data'
-                );
-                for (String key : data.keySet()) {
-                    submission.put(key, (String) data.get(key));
-                }
-
-                submissions.add(submission);
+            for (String key : data.keySet()) {
+                submission.put(key, String.valueOf(data.get(key)));
             }
+
+            submissions.add(submission);
         }
         return submissions;
     }
