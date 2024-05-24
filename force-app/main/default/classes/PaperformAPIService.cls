@@ -40,13 +40,15 @@ public with sharing class PaperformAPIService {
         }
     }
 
-    //Initial import of submissions then following that we can do like watching with a scheduler
-    /*
-
     @AuraEnabled(cacheable=true)
-    public static List<PaperformSubmission> fetchSubmissions(String apiKey, String formId) {
+    public static List<Map<String, String>> importSubmissions(
+        String apiKey,
+        String formId
+    ) {
         HttpRequest request = new HttpRequest();
-        request.setEndpoint('https://api.paperform.co/v1/forms/' + formId + '/submissions');
+        request.setEndpoint(
+            'https://api.paperform.co/v1/forms/' + formId + '/submissions'
+        );
         request.setMethod('GET');
         request.setHeader('Authorization', 'Bearer ' + apiKey);
 
@@ -57,29 +59,42 @@ public with sharing class PaperformAPIService {
             return parseSubmissions(response.getBody());
         } else {
             throw new AuraHandledException(
-                'Failed to fetch submissions: ' + response.getStatusCode() + ' ' + response.getStatus()
+                'Failed to fetch submissions: ' +
+                    response.getStatusCode() +
+                    ' ' +
+                    response.getStatus()
             );
         }
     }
 
-    private static List<PaperformSubmission> parseSubmissions(String jsonResponse) {
-        List<PaperformSubmission> submissions = new List<PaperformSubmission>();
-        Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(jsonResponse);
+    private static List<Map<String, String>> parseSubmissions(
+        String jsonResponse
+    ) {
+        List<Map<String, String>> submissions = new List<Map<String, String>>();
+        Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(
+            jsonResponse
+        );
 
         if (responseMap.containsKey('results')) {
-            List<Object> submissionsList = (List<Object>) responseMap.get('results');
+            List<Object> submissionsList = (List<Object>) responseMap.get(
+                'results'
+            );
             for (Object obj : submissionsList) {
                 Map<String, Object> submissionData = (Map<String, Object>) obj;
-                PaperformSubmission submission = new PaperformSubmission();
+                Map<String, String> submission = new Map<String, String>();
 
-                submission.id = (String) submissionData.get('id');
-                submission.formId = (String) submissionData.get('form_id');
+                submission.put('id', (String) submissionData.get('id'));
+                submission.put(
+                    'formId',
+                    (String) submissionData.get('form_id')
+                );
 
                 // Assuming data fields are a simple key-value pair of strings
-                Map<String, Object> data = (Map<String, Object>) submissionData.get('data');
-                submission.data = new Map<String, String>();
+                Map<String, Object> data = (Map<String, Object>) submissionData.get(
+                    'data'
+                );
                 for (String key : data.keySet()) {
-                    submission.data.put(key, (String) data.get(key));
+                    submission.put(key, (String) data.get(key));
                 }
 
                 submissions.add(submission);
@@ -87,91 +102,4 @@ public with sharing class PaperformAPIService {
         }
         return submissions;
     }
-} */
-
-    /*private static List<PaperformSubmission> parseSubmissions(
-        String jsonResponse
-    ) {
-        List<PaperformSubmission> submissions = new List<PaperformSubmission>();
-        Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(
-            jsonResponse
-        );
-
-        if (responseMap.containsKey('results')) {
-            Map<String, Object> results = (Map<String, Object>) responseMap.get(
-                'results'
-            );
-            if (results.containsKey('submissions')) {
-                List<Object> submissionsList = (List<Object>) results.get(
-                    'submissions'
-                );
-                for (Object obj : submissionsList) {
-                    Map<String, Object> submissionData = (Map<String, Object>) obj;
-                    PaperformSubmission submission = new PaperformSubmission();
-
-                    // Basic fields
-                    submission.id = (String) submissionData.get('id');
-                    submission.formId = (String) submissionData.get('form_id');
-
-                    // Data fields
-                    Map<String, Object> data = (Map<String, Object>) submissionData.get(
-                        'data'
-                    );
-                    submission.data = new Map<String, String>();
-                    for (String key : data.keySet()) {
-                        submission.data.put(key, (String) data.get(key));
-                    }
-
-                    // Adding device info if needed, similar to above
-                    // Example for 'device' parsing might be similarly detailed based on your class structure
-
-                    submissions.add(submission);
-                }
-            }
-        }
-        return submissions;
-    }
-
-    private static List<PaperformSubmission> parseSubmissions(
-        String jsonResponse
-    ) {
-        List<PaperformSubmission> submissions = new List<PaperformSubmission>();
-        Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(
-            jsonResponse
-        );
-
-        if (responseMap.containsKey('results')) {
-            Map<String, Object> results = (Map<String, Object>) responseMap.get(
-                'results'
-            );
-            if (results.containsKey('submissions')) {
-                List<Object> submissionsList = (List<Object>) results.get(
-                    'submissions'
-                );
-                for (Object obj : submissionsList) {
-                    Map<String, Object> submissionData = (Map<String, Object>) obj;
-                    PaperformSubmission submission = new PaperformSubmission();
-
-                    // Basic fields
-                    submission.id = (String) submissionData.get('id');
-                    submission.formId = (String) submissionData.get('form_id');
-
-                    // Data fields
-                    Map<String, Object> data = (Map<String, Object>) submissionData.get(
-                        'data'
-                    );
-                    submission.data = new Map<String, String>();
-                    for (String key : data.keySet()) {
-                        submission.data.put(key, (String) data.get(key));
-                    }
-
-                    // Adding device info if needed, similar to above
-                    // Example for 'device' parsing might be similarly detailed based on your class structure
-
-                    submissions.add(submission);
-                }
-            }
-        }
-        return submissions;
-    } */
 }

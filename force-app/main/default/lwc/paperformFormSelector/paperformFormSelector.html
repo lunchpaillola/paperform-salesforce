@@ -28,6 +28,11 @@
                 variant="brand"
                 disabled={isFormSelected}
             ></lightning-button>
+            <lightning-button
+                label="Import Submissions as Leads"
+                onclick={importSubmissionsAsLeads}
+                disabled={isFormSelected}
+            ></lightning-button>
             <p class="slds-var-m-top_small">{message}</p>
         </div>
     </lightning-card>

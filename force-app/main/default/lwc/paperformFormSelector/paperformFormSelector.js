@@ -1,6 +1,7 @@
 import { LightningElement, track } from 'lwc';
 import saveFormSettings from '@salesforce/apex/PaperformSettingsController.saveFormSettings';
 import getFormOptions from '@salesforce/apex/PaperformSettingsController.getFormOptions';
+import importSubmissions from '@salesforce/apex/PaperformAPIService.importSubmissions';
 
 export default class PaperformFormSelector extends LightningElement {
     @track apiKey = '';
@@ -56,16 +57,18 @@ export default class PaperformFormSelector extends LightningElement {
             });
     }
 
-    /* Inside your LWC JavaScript
-handleImportClick() {
-    importSubmissions({ apiKey: this.apiKey, formId: this.formId })
-        .then(submissions => {
-            console.log('Submissions imported:', submissions);
-            // Further processing to create leads can be initiated here
-        })
-        .catch(error => {
-            this.message = 'Error importing submissions: ' + (error.body ? error.body.message : 'Unknown error');
-            console.error('Error details:', error);
-        });
-} */
+    //importsubmissionLeads
+    importSubmissionsAsLeads() {
+        importSubmissions({ apiKey: this.apiKey, formId: this.formId })
+            .then((submissions) => {
+                console.log('Submissions imported:', submissions);
+                // Further processing to create leads can be initiated here
+            })
+            .catch((error) => {
+                this.message =
+                    'Error importing submissions: ' +
+                    (error.body ? error.body.message : 'Unknown error');
+                console.error('Error details:', error);
+            });
+    }
 }
