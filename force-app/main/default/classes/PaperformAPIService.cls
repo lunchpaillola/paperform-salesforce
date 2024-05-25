@@ -39,6 +39,47 @@ public with sharing class PaperformAPIService {
         }
     }
 
+    @AuraEnabled
+    public static String importAndCreateLeads(String apiKey, String formId) {
+        List<Map<String, String>> submissions = importSubmissions(
+            apiKey,
+            formId
+        );
+        List<Lead> leads = new List<Lead>();
+
+        for (Map<String, String> submission : submissions) {
+            Lead lead = new Lead();
+            List<String> keys = new List<String>(submission.keySet());
+
+            // Map the first four fields to Lead fields
+            if (keys.size() > 2)
+                lead.FirstName = submission.get(keys[2]);
+            if (keys.size() > 3)
+                lead.LastName = submission.get(keys[3]);
+            if (keys.size() > 4)
+                lead.Email = submission.get(keys[4]);
+            if (keys.size() > 5)
+                lead.Company = submission.get(keys[5]);
+
+            leads.add(lead);
+        }
+
+        // Perform a single DML operation
+        if (!leads.isEmpty()) {
+            try {
+                insert leads;
+            } catch (DmlException e) {
+                // Handle DML exceptions
+                System.debug('Error inserting leads: ' + e.getMessage());
+                throw new AuraHandledException(
+                    'Failed to insert leads: ' + e.getMessage()
+                );
+            }
+        }
+
+        return 'Successfully created ' + leads.size() + ' leads.';
+    }
+
     @AuraEnabled(cacheable=true)
     public static List<Map<String, String>> importSubmissions(
         String apiKey,
