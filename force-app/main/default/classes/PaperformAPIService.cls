@@ -15,7 +15,6 @@ public with sharing class PaperformAPIService {
             );
             List<Map<String, String>> forms = new List<Map<String, String>>();
 
-            // Correct handling of nested JSON structure
             Map<String, Object> results = (Map<String, Object>) responseMap.get(
                 'results'
             );
@@ -71,26 +70,41 @@ public with sharing class PaperformAPIService {
         String jsonResponse
     ) {
         List<Map<String, String>> submissions = new List<Map<String, String>>();
-        List<Object> responseList = (List<Object>) JSON.deserializeUntyped(
+        Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(
             jsonResponse
         );
 
-        for (Object obj : responseList) {
-            Map<String, Object> submissionData = (Map<String, Object>) obj;
-            Map<String, String> submission = new Map<String, String>();
-
-            submission.put('id', (String) submissionData.get('id'));
-            submission.put('formId', (String) submissionData.get('form_id'));
-
-            // Assuming data fields are a simple key-value pair of strings
-            Map<String, Object> data = (Map<String, Object>) submissionData.get(
-                'data'
+        if (responseMap.containsKey('results')) {
+            Map<String, Object> results = (Map<String, Object>) responseMap.get(
+                'results'
             );
-            for (String key : data.keySet()) {
-                submission.put(key, String.valueOf(data.get(key)));
-            }
+            if (results.containsKey('submissions')) {
+                List<Object> submissionsList = (List<Object>) results.get(
+                    'submissions'
+                );
+                for (Object obj : submissionsList) {
+                    Map<String, Object> submissionData = (Map<String, Object>) obj;
+                    Map<String, String> submission = new Map<String, String>();
 
-            submissions.add(submission);
+                    submission.put('id', (String) submissionData.get('id'));
+                    submission.put(
+                        'formId',
+                        (String) submissionData.get('form_id')
+                    );
+
+                    // Assuming data fields are a simple key-value pair of strings
+                    if (submissionData.containsKey('data')) {
+                        Map<String, Object> data = (Map<String, Object>) submissionData.get(
+                            'data'
+                        );
+                        for (String key : data.keySet()) {
+                            submission.put(key, String.valueOf(data.get(key)));
+                        }
+                    }
+
+                    submissions.add(submission);
+                }
+            }
         }
         return submissions;
     }
