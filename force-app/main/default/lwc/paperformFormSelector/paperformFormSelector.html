@@ -22,16 +22,11 @@
                 ></lightning-combobox>
             </template>
             <lightning-button
-                label="Save Settings"
+                label="Import leads"
                 onclick={handleSaveClick}
                 class="slds-var-m-top_medium"
                 variant="brand"
-                disabled={isFormSelected}
-            ></lightning-button>
-            <lightning-button
-                label="Import Submissions as Leads"
-                onclick={importAndCreateLeads}
-                disabled={isFormSelected}
+                disabled={isFormNotSelected}
             ></lightning-button>
             <p class="slds-var-m-top_small">{message}</p>
         </div>

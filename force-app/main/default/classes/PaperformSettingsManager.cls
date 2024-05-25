@@ -18,6 +18,7 @@ public with sharing class PaperformSettingsManager {
     }
 
     // Retrieve the stored settings (for future use)
+    @AuraEnabled(cacheable=true)
     public static PaperformSettings__c getSettings() {
         return PaperformSettings__c.getOrgDefaults();
     }
