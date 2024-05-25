@@ -45,7 +45,7 @@ public with sharing class PaperformAPIService {
             apiKey,
             formId
         );
-        List<Lead> leads = new List<Lead>();
+        List<Lead> leadsToInsert = new List<Lead>();
 
         for (Map<String, String> submission : submissions) {
             Lead lead = new Lead();
@@ -61,13 +61,27 @@ public with sharing class PaperformAPIService {
             if (keys.size() > 5)
                 lead.Company = submission.get(keys[5]);
 
-            leads.add(lead);
+            // Check if the lead email already exists in the database
+            if (lead.Email != null) {
+                List<Lead> existingLeads = [
+                    SELECT Id
+                    FROM Lead
+                    WHERE Email = :lead.Email
+                    LIMIT 1
+                ];
+                if (!existingLeads.isEmpty()) {
+                    // Skip this lead as it already exists
+                    continue;
+                }
+            }
+
+            leadsToInsert.add(lead);
         }
 
         // Perform a single DML operation
-        if (!leads.isEmpty()) {
+        if (!leadsToInsert.isEmpty()) {
             try {
-                insert leads;
+                insert leadsToInsert;
             } catch (DmlException e) {
                 // Handle DML exceptions
                 System.debug('Error inserting leads: ' + e.getMessage());
@@ -75,9 +89,10 @@ public with sharing class PaperformAPIService {
                     'Failed to insert leads: ' + e.getMessage()
                 );
             }
+            return 'Successfully created ' + leadsToInsert.size() + ' leads.';
         }
 
-        return 'Successfully created ' + leads.size() + ' leads.';
+        return 'No new leads to import.';
     }
 
     @AuraEnabled(cacheable=true)
